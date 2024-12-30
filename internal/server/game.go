@@ -25,6 +25,7 @@ var (
 	suits                    = []string{"Hearts", "Diamonds", "Clubs", "Spades"}
 	values                   = []string{"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"}
 	deck                     []Card
+	endGameState             = false
 )
 
 // Seed the random number generator
@@ -89,6 +90,7 @@ func calculateHandScore(hand []Card) int {
 
 // getBlackJack handles both the displaying of the game state and receiving player input
 func getBlackJack(w http.ResponseWriter, r *http.Request) {
+	endGameState = false
 	// If it's a POST request (form submission), process the action
 	if r.Method == http.MethodPost {
 		// Check the input action (e.g., "hit" or "stand")
@@ -98,11 +100,7 @@ func getBlackJack(w http.ResponseWriter, r *http.Request) {
 		if action == "hit" {
 			playerHand = append(playerHand, shuffledDeck[len(playerHand)+len(dealerHand)])
 			playerScore = calculateHandScore(playerHand)
-
-			// Check if the player busted
-			if playerScore > 21 {
-				return
-			}
+			displayGameState(w)
 		}
 
 		// If the player chooses to "stand", proceed with dealer's action
@@ -113,15 +111,16 @@ func getBlackJack(w http.ResponseWriter, r *http.Request) {
 			}
 
 			// Display results and winner
+			endGameState = true
 			displayGameState(w)
 			return
 		}
+	} else {
+		// Initialize the game for the first time
+		initializeGame()
+		// Display the initial state and offer a "hit" or "stand" option
+		displayGameState(w)
 	}
-
-	// Initialize the game for the first time
-	initializeGame()
-	// Display the initial state and offer a "hit" or "stand" option
-	displayGameState(w)
 }
 
 // initializeGame sets up a new game (shuffle, deal cards)
@@ -136,20 +135,18 @@ func initializeGame() {
 // logGameState logs the current state of the game
 func logGameState() {
 	log.Print(
-		"\n===========================\n\n",
-		"Logging Player Stats...\n",
+		"\n\nSTATE BREAK\n\n",
+		"endGameState: ",
+		endGameState,
+		"\nLogging Player Stats...\n",
 		playerHand,
 		"\nPlayer Score: ",
 		playerScore,
-	)
-	log.Print(
-		"Logging Dealer Stats...\n",
+		"\n\nLogging Dealer Stats...\n",
 		dealerHand,
 		"\nDealer Score: ",
 		dealerScore,
-		"\n\n===========================\n\n",
 	)
-	log.Print(dealerHand)
 }
 
 // displayGameState shows the current game status
@@ -170,7 +167,7 @@ func displayGameState(w http.ResponseWriter) {
 
 	// Display the "hit" and "stand" options in a form
 	if playerScore <= 21 {
-		if dealerScore >= 17 {
+		if dealerScore >= 17 && endGameState {
 
 			// Get Dealers Hand and Output it
 			dealerHandOutput := ""

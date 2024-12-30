@@ -18,7 +18,6 @@ func RegisterHandlers() {
 }
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("got / request\n")
 
 	// Ensure the correct content-type header is set
 	w.Header().Set("Content-Type", "text/html")
