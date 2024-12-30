@@ -196,7 +196,7 @@ func displayGameState(w http.ResponseWriter) {
 			<form method="post">
 				<button name="action" value="reset">Reset Game</button>
 			</form>
-		`)
+			`)
 		} else {
 			io.WriteString(w, `
 			<form method="post">
@@ -207,6 +207,11 @@ func displayGameState(w http.ResponseWriter) {
 		}
 	} else {
 		io.WriteString(w, "<p>Busted! You lose!</p>")
+		io.WriteString(w, `
+			<form method="post">
+				<button name="action" value="reset">Reset Game</button>
+			</form>
+		`)
 	}
 }
 
