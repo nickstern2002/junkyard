@@ -115,6 +115,11 @@ func getBlackJack(w http.ResponseWriter, r *http.Request) {
 			displayGameState(w)
 			return
 		}
+
+		if action == "reset" {
+			resetGameState(w)
+		}
+
 	} else {
 		// Initialize the game for the first time
 		initializeGame()
@@ -187,6 +192,11 @@ func displayGameState(w http.ResponseWriter) {
 			} else {
 				io.WriteString(w, "<h1>You Draw :| </h1>")
 			}
+			io.WriteString(w, `
+			<form method="post">
+				<button name="action" value="reset">Reset Game</button>
+			</form>
+		`)
 		} else {
 			io.WriteString(w, `
 			<form method="post">
@@ -198,4 +208,10 @@ func displayGameState(w http.ResponseWriter) {
 	} else {
 		io.WriteString(w, "<p>Busted! You lose!</p>")
 	}
+}
+
+func resetGameState(w http.ResponseWriter) {
+	endGameState = false
+	initializeGame()
+	displayGameState(w)
 }
