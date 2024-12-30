@@ -1,4 +1,4 @@
-module github.com/junkyard
+module github.com/nickstern2002/junkyard
 
 go 1.23.4
 

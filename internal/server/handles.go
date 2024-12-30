@@ -2,6 +2,8 @@ package server
 
 import (
 	"fmt"
+	"github.com/nickstern2002/junkyard/internal/box2048"
+	"github.com/nickstern2002/junkyard/internal/cards"
 	"io"
 	"log"
 	"net/http"
@@ -11,10 +13,10 @@ import (
 func RegisterHandlers() {
 	http.HandleFunc("/", getRoot)
 	http.HandleFunc("/hello", getHello)
-	http.HandleFunc("/balls", getBalls)
 	http.HandleFunc("/weather", getWeather)
 	http.HandleFunc("/time", getTime)
-	http.HandleFunc("/blackjack", getBlackJack)
+	http.HandleFunc("/blackjack", cards.GetBlackJack)
+	http.HandleFunc("/2048", box2048.Get2048)
 }
 
 func getRoot(w http.ResponseWriter, r *http.Request) {
@@ -75,12 +77,6 @@ func getRoot(w http.ResponseWriter, r *http.Request) {
 func getHello(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("got /hello request\n")
 	io.WriteString(w, "Hello, HTTP!\n")
-}
-
-func getBalls(w http.ResponseWriter, r *http.Request) {
-	fmt.Printf("got /balls request \n")
-	io.WriteString(w, "Balls lol\n")
-
 }
 
 func getWeather(w http.ResponseWriter, r *http.Request) {

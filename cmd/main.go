@@ -3,7 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/junkyard/internal/server"
+	"github.com/nickstern2002/junkyard/internal/server"
 	"net/http"
 	"os"
 )

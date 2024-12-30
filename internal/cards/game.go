@@ -1,5 +1,4 @@
-// blackjack.go
-package server
+package cards
 
 import (
 	"fmt"
@@ -88,8 +87,8 @@ func calculateHandScore(hand []Card) int {
 	return total
 }
 
-// getBlackJack handles both the displaying of the game state and receiving player input
-func getBlackJack(w http.ResponseWriter, r *http.Request) {
+// GetBlackJack handles both the displaying of the game state and receiving player input
+func GetBlackJack(w http.ResponseWriter, r *http.Request) {
 	endGameState = false
 	// If it's a POST request (form submission), process the action
 	if r.Method == http.MethodPost {
@@ -206,7 +205,7 @@ func displayGameState(w http.ResponseWriter) {
 		`)
 		}
 	} else {
-		io.WriteString(w, "<p>Busted! You lose!</p>")
+		io.WriteString(w, "<h1>Busted! You lose!</h1>")
 		io.WriteString(w, `
 			<form method="post">
 				<button name="action" value="reset">Reset Game</button>
