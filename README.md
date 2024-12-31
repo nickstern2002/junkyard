@@ -1,4 +1,4 @@
-### Welcome to the Junkyard
+# Welcome to the Junkyard
 This is a working web server ready to be built as a container image
 and deployed into k8s cluster
 
