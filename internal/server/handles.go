@@ -2,8 +2,8 @@ package server
 
 import (
 	"fmt"
+	"github.com/nickstern2002/junkyard/internal/blackjack"
 	"github.com/nickstern2002/junkyard/internal/box2048"
-	"github.com/nickstern2002/junkyard/internal/cards"
 	"io"
 	"log"
 	"net/http"
@@ -15,7 +15,7 @@ func RegisterHandlers() {
 	http.HandleFunc("/hello", getHello)
 	http.HandleFunc("/weather", getWeather)
 	http.HandleFunc("/time", getTime)
-	http.HandleFunc("/blackjack", cards.GetBlackJack)
+	http.HandleFunc("/blackjack", blackjack.GetBlackjack)
 	http.HandleFunc("/2048", box2048.Get2048)
 }
 
